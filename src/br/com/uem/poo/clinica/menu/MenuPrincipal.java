@@ -21,16 +21,17 @@ public  class MenuPrincipal implements Menu {
       saidaTexto.println("  3- Sair");
       saidaTexto.print("Digite a opção: ");
 
-      op = leitor.nextInt();
+      op = Integer.parseInt(leitor.nextLine());
 
       executaOperacao(op);
     }while (op!=3);
 
-    saidaTexto.println("BYE");
+    saidaTexto.println("\nBYE !!!!!\n");
   }
 
   public void executaOperacao(int op){
     Menu menu = null;
+    boolean mostraMenu = true;
 
     switch (op){
       case 1:
@@ -39,13 +40,14 @@ public  class MenuPrincipal implements Menu {
       case 2:
         menu = new MenuMedico();
         break;
+      default:
+        mostraMenu = false;
+        break;
     }
 
-    if(menu == null){
-      return;
+    if(mostraMenu){
+      menu.showMenu();
     }
-
-    menu.showMenu();
 
   }
 

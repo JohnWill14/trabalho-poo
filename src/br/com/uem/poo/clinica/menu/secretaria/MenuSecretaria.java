@@ -22,19 +22,19 @@ public class MenuSecretaria implements Menu {
       saidaTexto.println("********* SECRETÁRIA *********\n");
       saidaTexto.println("  1- Pacientes");
       saidaTexto.println("  2- Consultas");
-      saidaTexto.println("  3- Relatório Consulta");
-      saidaTexto.println("  4- Sair");
+      saidaTexto.println("  3- Sair");
       saidaTexto.print("Digite a opção: ");
 
-      op = leitor.nextInt();
+      op = Integer.parseInt(leitor.nextLine());
 
       executaOperacao(op);
-    }while (op!=4);
+    }while (op!=3);
 
   }
 
   public void executaOperacao(int op){
     Menu submenu = null;
+    boolean mostraMenu = true;
 
     switch (op){
       case 1:
@@ -43,17 +43,14 @@ public class MenuSecretaria implements Menu {
       case 2:
         submenu = new SubMenuConsulta();
         break;
-      case 3:
-        submenu = new SubMenuRelatorioConsulta();
+      default:
+        mostraMenu = false;
         break;
     }
 
-    if(submenu == null){
-      return;
+    if(mostraMenu) {
+      submenu.showMenu();
     }
-
-    submenu.showMenu();
-
   }
 
 }

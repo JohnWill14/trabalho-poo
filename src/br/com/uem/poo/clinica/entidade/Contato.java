@@ -12,7 +12,7 @@ public class Contato {
   }
 
   public Contato(String endereco, String bairro, String cidade, String email, String telefone) {
-    this();
+    super();
     this.endereco = endereco;
     this.bairro = bairro;
     this.cidade = cidade;
@@ -58,17 +58,6 @@ public class Contato {
 
   public void setTelefone(String telefone) {
     this.telefone = telefone;
-  }
-
-  @Override
-  public String toString() {
-    return "Contato{" +
-            "endereco='" + endereco + '\'' +
-            ", bairro='" + bairro + '\'' +
-            ", cidade='" + cidade + '\'' +
-            ", email='" + email + '\'' +
-            ", telefone='" + telefone + '\'' +
-            '}';
   }
 
   public static class ContatoBuilder{

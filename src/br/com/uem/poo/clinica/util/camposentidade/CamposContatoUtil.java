@@ -1,11 +1,11 @@
-package br.com.uem.poo.clinica.util.leitor;
+package br.com.uem.poo.clinica.util.camposentidade;
 
 import br.com.uem.poo.clinica.entidade.Contato;
 
 import java.io.PrintStream;
 import java.util.Scanner;
 
-public class CapturaContatoUtil {
+public class CamposContatoUtil {
   private static final PrintStream saidaTexto = System.out;
   private static final Scanner leitor = new Scanner(System.in);
 
@@ -13,15 +13,15 @@ public class CapturaContatoUtil {
     Contato.ContatoBuilder cb = new Contato.ContatoBuilder();
 
     saidaTexto.print("Digite o endereco: ");
-    cb.endereco(leitor.next());
+    cb.endereco(leitor.nextLine());
     saidaTexto.print("Digite o bairro: ");
-    cb.bairro(leitor.next());
+    cb.bairro(leitor.nextLine());
     saidaTexto.print("Digite a cidade: ");
-    cb.cidade(leitor.next());
+    cb.cidade(leitor.nextLine());
     saidaTexto.print("Digite o email: ");
-    cb.email(leitor.next());
+    cb.email(leitor.nextLine());
     saidaTexto.print("Digite o telefone: ");
-    cb.telefone(leitor.next());
+    cb.telefone(leitor.nextLine());
 
     return cb.build();
   }

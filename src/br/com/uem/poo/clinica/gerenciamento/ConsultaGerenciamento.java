@@ -13,7 +13,7 @@ public class ConsultaGerenciamento {
     consultas.add(consulta);
   }
 
-  public List<Consulta> listaPacientes(){
+  public List<Consulta> listaConsulta(){
     return consultas;
   }
 

@@ -3,7 +3,7 @@ package br.com.uem.poo.clinica.menu.secretaria;
 import br.com.uem.poo.clinica.entidade.Paciente;
 import br.com.uem.poo.clinica.gerenciamento.PacienteGerenciamento;
 import br.com.uem.poo.clinica.menu.Menu;
-import br.com.uem.poo.clinica.util.leitor.CapturaPacienteUtil;
+import br.com.uem.poo.clinica.util.camposentidade.CamposPacienteUtil;
 
 import java.io.PrintStream;
 import java.text.ParseException;
@@ -29,7 +29,7 @@ public class SubMenuPaciente implements Menu {
         saidaTexto.print(topicoPaciente());
         saidaTexto.print("Digite a opção: ");
 
-        op = leitor.nextInt();
+        op = Integer.parseInt(leitor.nextLine());
 
         executaOperacao(op);
       }while (op!=5);
@@ -73,12 +73,12 @@ public class SubMenuPaciente implements Menu {
   private void adicionaPaciente(){
 
     try {
-      Paciente paciente = CapturaPacienteUtil.inseriCamposPaciente();
+      Paciente paciente = CamposPacienteUtil.inseriCamposPaciente();
 
       pacienteGerenciamento.adicionaPaciente(paciente);
 
       saidaTexto.println("Sucesso ao cadastar usuário !!!!");
-    } catch (ParseException e) {
+    } catch (Exception e) {
       saidaTexto.print(e);
       saidaTexto.println(" - Erro ao cadastar o usuário :(");
     }
@@ -96,18 +96,18 @@ public class SubMenuPaciente implements Menu {
     saidaTexto.println("-------");
     saidaTexto.print("Escolha um id: ");
 
-    Long id = leitor.nextLong();
+    Long id = Long.parseLong(leitor.nextLine());
 
     try {
-      Paciente paciente = CapturaPacienteUtil.inseriCamposPaciente();
+      Paciente paciente = CamposPacienteUtil.inseriCamposPaciente();
       paciente.setId(id);
 
       pacienteGerenciamento.atualizaPaciente(paciente);
 
       saidaTexto.println("Sucesso ao atualizar o usuário !!!!");
-    } catch (ParseException e) {
+    } catch (Exception e) {
       saidaTexto.print(e);
-      saidaTexto.println("- Erro ao atualizar usuário :(");
+      saidaTexto.println("- Erro ao atualizar usuário");
     }
 
   }
@@ -122,7 +122,7 @@ public class SubMenuPaciente implements Menu {
     saidaTexto.println("-------");
     saidaTexto.print("Escolha um id: ");
 
-    Long id = leitor.nextLong();
+    Long id = Long.parseLong(leitor.nextLine());
 
     pacienteGerenciamento.removePaciente(id);
     saidaTexto.println("Sucesso ao remover usuário !!!!");
@@ -134,7 +134,7 @@ public class SubMenuPaciente implements Menu {
     if(pacientes.size()==0){
       saidaTexto.println("  Lista vazia !!!!");
     }else{
-      CapturaPacienteUtil.listaPacientes(pacientes);
+      CamposPacienteUtil.listaPacientes(pacientes);
     }
 
   }
