@@ -1,6 +1,7 @@
 package br.com.uem.poo.clinica.util.camposentidade;
 
 import br.com.uem.poo.clinica.entidade.Consulta;
+import br.com.uem.poo.clinica.entidade.Paciente;
 import br.com.uem.poo.clinica.gerenciamento.PacienteGerenciamento;
 import br.com.uem.poo.clinica.util.DateTimeUtil;
 
@@ -17,13 +18,10 @@ public class CamposConsultaUtil {
 
     private static PacienteGerenciamento pacienteGerenciamento = new PacienteGerenciamento();
 
-    public static Consulta inseriCamposConsulta() throws ParseException {
+    public static Consulta inseriCamposConsulta(Paciente paciente)  {
         Consulta.ConsultaBuild cb = new Consulta.ConsultaBuild();
 
-        CamposPacienteUtil.listaPacientes(pacienteGerenciamento.listaPacientes());
-        saidaTexto.print("Insira um id válido do paciente: ");
-        Long id = Long.parseLong(leitor.nextLine());
-        cb.paciente(pacienteGerenciamento.buscaPacientePeloId(id));
+        cb.paciente(paciente);
 
         saidaTexto.print("Inseri o nome do medico: ");
         cb.nomeMedico(leitor.nextLine());
@@ -53,11 +51,16 @@ public class CamposConsultaUtil {
     public static void listaConsultasPeloDia(List<Consulta> listaConsulta, LocalDate data){
         saidaTexto.println("Lista Consultas:");
 
-        for(Consulta c: listaConsulta){
-            LocalDate localDate = c.getDiaHorario().toLocalDate();
+        if(listaConsulta.size()==0){
+            saidaTexto.println("* lista vazia");
+        }
+        else {
+            for (Consulta c : listaConsulta) {
+                LocalDate localDate = c.getDiaHorario().toLocalDate();
 
-            if(localDate.equals(data)) {
-                mostraConsulta(c);
+                if (localDate.equals(data)) {
+                    mostraConsulta(c);
+                }
             }
         }
     }

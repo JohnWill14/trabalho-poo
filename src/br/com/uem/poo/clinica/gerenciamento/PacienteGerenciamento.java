@@ -48,6 +48,8 @@ public class PacienteGerenciamento {
     if(indexOf==-1){
       throw new RuntimeException("Id não encontrado");
     }else{
+      Paciente pacienteOriginal = pacientes.get(indexOf);
+      paciente.setDadosAdicionais(pacienteOriginal.getDadosAdicionais());
       pacientes.set(indexOf, paciente);
     }
 

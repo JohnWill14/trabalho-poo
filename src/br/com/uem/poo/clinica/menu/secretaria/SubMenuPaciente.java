@@ -30,8 +30,11 @@ public class SubMenuPaciente implements Menu {
         saidaTexto.print("Digite a opção: ");
 
         op = Integer.parseInt(leitor.nextLine());
-
-        executaOperacao(op);
+        try {
+          executaOperacao(op);
+        }catch (RuntimeException e){
+          saidaTexto.println(e.getMessage());
+        }
       }while (op!=5);
   }
 
@@ -79,8 +82,7 @@ public class SubMenuPaciente implements Menu {
 
       saidaTexto.println("Sucesso ao cadastar usuário !!!!");
     } catch (Exception e) {
-      saidaTexto.print(e);
-      saidaTexto.println(" - Erro ao cadastar o usuário :(");
+      throw new RuntimeException("Erro "+e.getMessage());
     }
 
   }
@@ -90,7 +92,7 @@ public class SubMenuPaciente implements Menu {
     listaPaciente();
 
     if(pacienteGerenciamento.listaPacientes().isEmpty()){
-      return;
+      throw new RuntimeException("Lista vazia nao e possivel continuar a atualizacao");
     }
 
     saidaTexto.println("-------");
@@ -98,41 +100,53 @@ public class SubMenuPaciente implements Menu {
 
     Long id = Long.parseLong(leitor.nextLine());
 
+
+    Paciente paciente = null;
     try {
-      Paciente paciente = CamposPacienteUtil.inseriCamposPaciente();
-      paciente.setId(id);
+      if(!pacienteGerenciamento.existePacienteComId(id)){
+        throw new RuntimeException("Id inexistente");
+      }
 
-      pacienteGerenciamento.atualizaPaciente(paciente);
-
-      saidaTexto.println("Sucesso ao atualizar o usuário !!!!");
+      paciente = CamposPacienteUtil.inseriCamposPaciente();
     } catch (Exception e) {
-      saidaTexto.print(e);
-      saidaTexto.println("- Erro ao atualizar usuário");
+      throw new RuntimeException("Erro "+e.getMessage());
     }
 
+    paciente.setId(id);
+
+    pacienteGerenciamento.atualizaPaciente(paciente);
+
+    saidaTexto.println("Sucesso ao atualizar o usuário !!!!");
   }
 
   private void removePaciente(){
     listaPaciente();
 
     if(pacienteGerenciamento.listaPacientes().isEmpty()){
-      return;
+      throw new RuntimeException("Lista vazia nao e possivel continuar a remocao");
     }
 
     saidaTexto.println("-------");
     saidaTexto.print("Escolha um id: ");
 
     Long id = Long.parseLong(leitor.nextLine());
+    try {
+      if (!pacienteGerenciamento.existePacienteComId(id)) {
+        throw new RuntimeException("Id inexistente");
+      }
 
-    pacienteGerenciamento.removePaciente(id);
-    saidaTexto.println("Sucesso ao remover usuário !!!!");
+      pacienteGerenciamento.removePaciente(id);
+      saidaTexto.println("Sucesso ao remover usuário !!!!");
+    }catch (RuntimeException e){
+      throw new RuntimeException("Erro "+e.getMessage());
+    }
   }
 
   private void listaPaciente(){
     List<Paciente> pacientes = pacienteGerenciamento.listaPacientes();
 
     if(pacientes.size()==0){
-      saidaTexto.println("  Lista vazia !!!!");
+      saidaTexto.println("*  Lista vazia");
     }else{
       CamposPacienteUtil.listaPacientes(pacientes);
     }

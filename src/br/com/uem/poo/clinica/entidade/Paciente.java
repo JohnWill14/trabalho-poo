@@ -17,11 +17,6 @@ public class Paciente{
   private List<String> dadosAdicionais = new ArrayList<>();
   private String tipoConvenio;
 
-
-  {
-    count +=1L;
-    this.id = count;
-  }
   public Paciente() {
     super();
   }
@@ -35,6 +30,8 @@ public class Paciente{
     this.sexo = sexo;
     this.estadoCivil = estadoCivil;
     this.tipoConvenio = tipoConvenio;
+    count +=1L;
+    this.id = count;
   }
 
   public Long getId() {
@@ -95,6 +92,10 @@ public class Paciente{
 
   public void setTipoConvenio(String tipoConvenio) {
     this.tipoConvenio = tipoConvenio;
+  }
+
+  public void setDadosAdicionais(List<String> dadosAdicionais) {
+    this.dadosAdicionais = dadosAdicionais;
   }
 
   public static class PacienteBuilder{

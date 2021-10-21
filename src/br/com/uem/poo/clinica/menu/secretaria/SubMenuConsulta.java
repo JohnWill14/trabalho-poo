@@ -1,13 +1,15 @@
 package br.com.uem.poo.clinica.menu.secretaria;
 
 import br.com.uem.poo.clinica.entidade.Consulta;
+import br.com.uem.poo.clinica.entidade.Paciente;
 import br.com.uem.poo.clinica.gerenciamento.ConsultaGerenciamento;
+import br.com.uem.poo.clinica.gerenciamento.PacienteGerenciamento;
 import br.com.uem.poo.clinica.menu.Menu;
 import br.com.uem.poo.clinica.util.DateTimeUtil;
 import br.com.uem.poo.clinica.util.camposentidade.CamposConsultaUtil;
+import br.com.uem.poo.clinica.util.camposentidade.CamposPacienteUtil;
 
 import java.io.PrintStream;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
@@ -30,7 +32,11 @@ public class SubMenuConsulta implements Menu{
 
       op = Integer.parseInt(leitor.nextLine());
 
-      executaOperacao(op);
+      try {
+        executaOperacao(op);
+      }catch (RuntimeException e){
+        saidaTexto.println(e.getMessage());
+      }
     }while (op!=5);
 
   }
@@ -73,15 +79,16 @@ public class SubMenuConsulta implements Menu{
   private void adicionaConsulta(){
 
     try {
-      Consulta consulta = CamposConsultaUtil.inseriCamposConsulta();
+      Paciente paciente = selecionaPaciente();
+
+      Consulta consulta = CamposConsultaUtil.inseriCamposConsulta(paciente);
 
       consultaGerenciamento.adicionaConsulta(consulta);
 
       saidaTexto.println("Sucesso ao cadastar consulta !!!!");
 
     } catch (Exception e) {
-      saidaTexto.print(e);
-      saidaTexto.println(" - Erro ao cadastar a consulta");
+      throw new RuntimeException("Erro "+e.getMessage());
     }
 
   }
@@ -91,7 +98,7 @@ public class SubMenuConsulta implements Menu{
     listaConsulta();
 
     if(consultaGerenciamento.listaConsulta().isEmpty()){
-      return;
+      throw new RuntimeException("Lista vazia nao e possivel continuar a atualizacao");
     }
 
     saidaTexto.println("-------");
@@ -100,24 +107,46 @@ public class SubMenuConsulta implements Menu{
     Long id = Long.parseLong(leitor.nextLine());
 
     try {
-      Consulta consulta = CamposConsultaUtil.inseriCamposConsulta();
+
+      Paciente paciente = selecionaPaciente();
+
+      Consulta consulta = CamposConsultaUtil.inseriCamposConsulta(paciente);
       consulta.setId(id);
 
       consultaGerenciamento.atualizaConsulta(consulta);
 
       saidaTexto.println("Sucesso ao atualizar a consulta !!!!");
     } catch (Exception e) {
-      saidaTexto.print(e);
-      saidaTexto.println("- Erro ao atualizar a consulta");
+      throw new RuntimeException("Erro "+e.getMessage());
     }
 
+  }
+
+  private Paciente selecionaPaciente(){
+    PacienteGerenciamento pacienteGerenciamento = new PacienteGerenciamento();
+    List<Paciente> pacientes = pacienteGerenciamento.listaPacientes();
+
+    if (pacientes.size()==0){
+      throw new RuntimeException("Lista pacientes vazia nao e possivel continuar");
+    }
+
+    CamposPacienteUtil.listaPacientes(pacientes);
+
+    saidaTexto.print("Insira um id válido do paciente: ");
+    Long id = Long.parseLong(leitor.nextLine());
+
+    if(!pacienteGerenciamento.existePacienteComId(id)){
+      throw new RuntimeException("Id inexistente");
+    }
+
+    return pacienteGerenciamento.buscaPacientePeloId(id);
   }
 
   private void removeConsulta(){
     listaConsulta();
 
     if(consultaGerenciamento.listaConsulta().isEmpty()){
-      return;
+      throw new RuntimeException("Lista vazia nao e possivel continuar a remocao");
     }
 
     saidaTexto.println("-------");
@@ -129,8 +158,7 @@ public class SubMenuConsulta implements Menu{
       consultaGerenciamento.removeConsulta(id);
       saidaTexto.println("Sucesso ao remover consulta !!!!");
     } catch (Exception e) {
-      saidaTexto.print(e);
-      saidaTexto.println("- Erro ao atualizar a consulta");
+      throw new RuntimeException("Erro "+e.getMessage());
     }
   }
 
@@ -146,8 +174,7 @@ public class SubMenuConsulta implements Menu{
         CamposConsultaUtil.listaConsultasPeloDia(consultas, localDateConvertido);
       }
     } catch (Exception e) {
-      saidaTexto.print(e);
-      saidaTexto.println("- Erro");
+      throw new RuntimeException("Erro "+e.getMessage());
     }
 
   }
