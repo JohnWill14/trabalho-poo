@@ -1,5 +1,7 @@
 package br.com.uem.poo.clinica.entidade;
 
+import java.util.Objects;
+
 public class Contato {
   private String endereco;
   private String bairro;
@@ -102,4 +104,16 @@ public class Contato {
 
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Contato contato = (Contato) o;
+    return Objects.equals(endereco, contato.endereco) && Objects.equals(bairro, contato.bairro) && Objects.equals(cidade, contato.cidade) && Objects.equals(email, contato.email) && Objects.equals(telefone, contato.telefone);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(endereco, bairro, cidade, email, telefone);
+  }
 }

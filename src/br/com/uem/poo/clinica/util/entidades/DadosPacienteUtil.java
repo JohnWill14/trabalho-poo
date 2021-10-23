@@ -1,15 +1,11 @@
-package br.com.uem.poo.clinica.util.camposentidade;
+package br.com.uem.poo.clinica.util.entidades;
 
 import br.com.uem.poo.clinica.entidade.Paciente;
-import br.com.uem.poo.clinica.util.DateTimeUtil;
 
 import java.io.PrintStream;
-import java.text.ParseException;
-import java.time.LocalDate;
-import java.util.List;
 import java.util.Scanner;
 
-public class CamposDadosPacienteUtil {
+public class DadosPacienteUtil {
     private static final PrintStream saidaTexto = System.out;
     private static final Scanner leitor = new Scanner(System.in);
 

@@ -1,9 +1,10 @@
 package br.com.uem.poo.clinica.entidade;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Consulta {
-  private static  Long count = 0L;
+  private static  Long numeroConsulta = 0L;
 
   private Long id;
   private Paciente paciente;
@@ -12,28 +13,28 @@ public class Consulta {
   private int duracao;
 
   {
-    count +=1L;
-    this.id = count;
+
   }
 
   public Consulta() {
     super();
   }
 
-  public Consulta(Paciente paciente, String nomeMedico, LocalDateTime diaHorario, int duracao) {
+  public Consulta(Long id, Paciente paciente, String nomeMedico, LocalDateTime diaHorario, int duracao) {
     super();
+    this.id = id;
     this.paciente = paciente;
     this.nomeMedico = nomeMedico;
     this.diaHorario = diaHorario;
     this.duracao = duracao;
   }
 
-  public static Long getCount() {
-    return count;
+  public static Long getNumeroConsulta() {
+    return numeroConsulta;
   }
 
-  public static void setCount(Long count) {
-    Consulta.count = count;
+  public static void setNumeroConsulta(Long numeroConsulta) {
+    Consulta.numeroConsulta = numeroConsulta;
   }
 
   public Long getId() {
@@ -78,10 +79,16 @@ public class Consulta {
 
   public static class ConsultaBuild{
 
+    private Long id;
     private Paciente paciente;
     private String nomeMedico;
     private LocalDateTime diaHorario;
     private int duracao;
+
+    public ConsultaBuild id(Long id){
+      this.id = id;
+      return this;
+    }
 
     public ConsultaBuild paciente(Paciente paciente){
       this.paciente = paciente;
@@ -104,9 +111,21 @@ public class Consulta {
     }
 
     public  Consulta build(){
-      return new Consulta(paciente, nomeMedico, diaHorario, duracao);
+      return new Consulta(id, paciente, nomeMedico, diaHorario, duracao);
     }
 
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Consulta consulta = (Consulta) o;
+    return id.equals(consulta.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
 }

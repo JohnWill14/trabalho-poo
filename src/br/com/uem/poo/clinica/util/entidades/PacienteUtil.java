@@ -1,4 +1,4 @@
-package br.com.uem.poo.clinica.util.camposentidade;
+package br.com.uem.poo.clinica.util.entidades;
 
 import br.com.uem.poo.clinica.entidade.Paciente;
 import br.com.uem.poo.clinica.util.DateTimeUtil;
@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
-public class CamposPacienteUtil {
+public class PacienteUtil {
     private static final PrintStream saidaTexto = System.out;
     private static final Scanner leitor = new Scanner(System.in);
 
@@ -19,15 +19,15 @@ public class CamposPacienteUtil {
         saidaTexto.print("Digite o nome: ");
         pb.nome(leitor.nextLine());
 
-        pb.contato(CamposContatoUtil.inseriCamposContato());
+        pb.contato(ContatoUtil.inseriCamposContato());
 
-        saidaTexto.print("Digite o tipo do convenio:  \n\t[1] - Particular\n\t[2] - Publico  \n");
+        saidaTexto.print("Digite o tipo do convenio:  \n\t[1] - Particular\n\t[2] - Plano de saude  \n");
         int convenioSelecionado = Integer.parseInt(leitor.nextLine());
         String convenio;
         if(convenioSelecionado==1){
             convenio = "Particular";
         }else{
-            convenio = "Publico";
+            convenio = "Plano de saude";
         }
         pb.tipoConvenio(convenio);
 
@@ -65,24 +65,50 @@ public class CamposPacienteUtil {
     public static void listaPacientes(List<Paciente> listaPaciente){
         saidaTexto.println("Lista Pacientes:");
         for(Paciente p: listaPaciente){
-            mostraPaciente(p);
+            mostraPacienteSimples(p);
         }
     }
 
-    public static void mostraPaciente(Paciente paciente){
+    public static void mostraPacienteSimples(Paciente paciente){
+        String dataString;
+        try{
+            dataString = DateTimeUtil.converteLocalDateParaString(paciente.getDataNascimento(), "dd/MM/yyyy");
+
+        }catch (Exception e){
+            throw new RuntimeException("Nao foi possivel converter data");
+        }
+        saidaTexto.printf("[%03d] - %s, email: %s, telefone: %s, Data nascimento: %s\n",
+                paciente.getId(),
+                paciente.getNome(),
+                paciente.getContato().getEmail(),
+                paciente.getContato().getTelefone(),
+                dataString
+        );
+
+    }
+
+    public static void mostraPacienteCompleto(Paciente paciente){
+
+        String dataString;
 
         try{
-            String dataString = DateTimeUtil.converteLocalDateParaString(paciente.getDataNascimento(), "dd/MM/yyyy");
-            saidaTexto.printf("[%d] - %s, email: %s, telefone: %s, Data nascimento: %s\n",
-                    paciente.getId(),
-                    paciente.getNome(),
-                    paciente.getContato().getEmail(),
-                    paciente.getContato().getTelefone(),
-                    dataString
-            );
+            dataString = DateTimeUtil.converteLocalDateParaString(paciente.getDataNascimento(), "dd/MM/yyyy");
+
         }catch (Exception e){
             throw new RuntimeException("Nao foi possivel converter data");
         }
 
+        saidaTexto.printf("     Codigo: %03d\n", paciente.getId());
+        saidaTexto.printf("     Nome: %s\n", paciente.getNome());
+        saidaTexto.printf("     Tipo de convenio: %s\n", paciente.getTipoConvenio());
+        saidaTexto.println("- Contato -");
+        saidaTexto.printf("     Telefone: %s\n", paciente.getContato().getTelefone());
+        saidaTexto.printf("     Email: %s\n", paciente.getContato().getEmail());
+        saidaTexto.printf("     Endereco: %s\n", paciente.getContato().getEndereco());
+        saidaTexto.printf("     Bairro: %s\n", paciente.getContato().getBairro());
+        saidaTexto.printf("     Cidade: %s\n", paciente.getContato().getCidade());
+        saidaTexto.println("- Dados -");
+        saidaTexto.printf("     Estado Civil: %s\n", paciente.getEstadoCivil());
+        saidaTexto.printf("     Sexo: %s\n", paciente.getSexo());
     }
 }

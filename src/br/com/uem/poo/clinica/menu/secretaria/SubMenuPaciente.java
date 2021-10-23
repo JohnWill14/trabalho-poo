@@ -1,12 +1,13 @@
 package br.com.uem.poo.clinica.menu.secretaria;
 
+import br.com.uem.poo.clinica.entidade.Consulta;
 import br.com.uem.poo.clinica.entidade.Paciente;
 import br.com.uem.poo.clinica.gerenciamento.PacienteGerenciamento;
 import br.com.uem.poo.clinica.menu.Menu;
-import br.com.uem.poo.clinica.util.camposentidade.CamposPacienteUtil;
+import br.com.uem.poo.clinica.util.entidades.ConsultaUtil;
+import br.com.uem.poo.clinica.util.entidades.PacienteUtil;
 
 import java.io.PrintStream;
-import java.text.ParseException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -35,7 +36,7 @@ public class SubMenuPaciente implements Menu {
         }catch (RuntimeException e){
           saidaTexto.println(e.getMessage());
         }
-      }while (op!=5);
+      }while (op!=6);
   }
 
   private String topicoPaciente(){
@@ -46,7 +47,8 @@ public class SubMenuPaciente implements Menu {
     sb.append("   2- Lista paciente\n");
     sb.append("   3- Atualiza paciente\n");
     sb.append("   4- Remove paciente\n");
-    sb.append("   5- Sair\n");
+    sb.append("   5- Exibe paciente pelo id\n");
+    sb.append("   6- Sair\n");
 
     return sb.toString();
   }
@@ -67,6 +69,9 @@ public class SubMenuPaciente implements Menu {
       case 4:
         removePaciente();
         break;
+      case 5:
+        exibePaciente();
+        break;
     }
 
     saidaTexto.println("\n---------------------\n");
@@ -76,7 +81,7 @@ public class SubMenuPaciente implements Menu {
   private void adicionaPaciente(){
 
     try {
-      Paciente paciente = CamposPacienteUtil.inseriCamposPaciente();
+      Paciente paciente = PacienteUtil.inseriCamposPaciente();
 
       pacienteGerenciamento.adicionaPaciente(paciente);
 
@@ -107,7 +112,7 @@ public class SubMenuPaciente implements Menu {
         throw new RuntimeException("Id inexistente");
       }
 
-      paciente = CamposPacienteUtil.inseriCamposPaciente();
+      paciente = PacienteUtil.inseriCamposPaciente();
     } catch (Exception e) {
       throw new RuntimeException("Erro "+e.getMessage());
     }
@@ -142,13 +147,33 @@ public class SubMenuPaciente implements Menu {
     }
   }
 
+  public void exibePaciente(){
+    listaPaciente();
+
+    if(pacienteGerenciamento.listaPacientes().isEmpty()){
+      throw new RuntimeException("Lista vazia nao e possivel continuar a remocao");
+    }
+
+    saidaTexto.println("-------");
+    saidaTexto.print("Escolha um id: ");
+    Long id = Long.parseLong(leitor.nextLine());
+
+    try {
+      Paciente paciente = pacienteGerenciamento.buscaPacientePeloId(id);
+
+      PacienteUtil.mostraPacienteCompleto(paciente);
+    } catch (Exception e) {
+      throw new RuntimeException("Erro "+e.getMessage());
+    }
+  }
+
   private void listaPaciente(){
     List<Paciente> pacientes = pacienteGerenciamento.listaPacientes();
 
     if(pacientes.size()==0){
       saidaTexto.println("*  Lista vazia");
     }else{
-      CamposPacienteUtil.listaPacientes(pacientes);
+      PacienteUtil.listaPacientes(pacientes);
     }
 
   }

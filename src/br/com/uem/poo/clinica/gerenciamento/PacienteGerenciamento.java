@@ -1,6 +1,8 @@
 package br.com.uem.poo.clinica.gerenciamento;
 
+import br.com.uem.poo.clinica.entidade.Contato;
 import br.com.uem.poo.clinica.entidade.Paciente;
+import br.com.uem.poo.clinica.util.DateTimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +11,31 @@ import java.util.stream.Collectors;
 public class PacienteGerenciamento {
   private static final List<Paciente> pacientes = new ArrayList<>();
 
+  static{
+    Contato.ContatoBuilder cb = new Contato.ContatoBuilder();
+    Paciente.PacienteBuilder pb = new Paciente.PacienteBuilder();
+
+    cb.cidade("juruaia");
+    cb.telefone("(77) 4544-7854");
+    cb.bairro("bairro");
+    cb.email("contato@gmail.com");
+
+    pb.id(1L);
+    pb.nome("John William");
+    pb.sexo('M');
+    pb.estadoCivil("Solteiro");
+    pb.dataNascimento(DateTimeUtil.converteStringParaLocalDate("07/07/1957", "dd/MM/yyyy"));
+    pb.tipoConvenio("Particular");
+    pb.contato(cb.build());
+
+    pacientes.add(pb.build());
+    Paciente.setNumeroPaciente(Paciente.getNumeroPaciente()+1l);
+
+  }
+
   public void adicionaPaciente(Paciente paciente){
+    paciente.setId(Paciente.getNumeroPaciente()+1l);
+    Paciente.setNumeroPaciente(Paciente.getNumeroPaciente()+1l);
     pacientes.add(paciente);
   }
 

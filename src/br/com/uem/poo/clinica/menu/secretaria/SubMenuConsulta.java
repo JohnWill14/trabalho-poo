@@ -6,8 +6,8 @@ import br.com.uem.poo.clinica.gerenciamento.ConsultaGerenciamento;
 import br.com.uem.poo.clinica.gerenciamento.PacienteGerenciamento;
 import br.com.uem.poo.clinica.menu.Menu;
 import br.com.uem.poo.clinica.util.DateTimeUtil;
-import br.com.uem.poo.clinica.util.camposentidade.CamposConsultaUtil;
-import br.com.uem.poo.clinica.util.camposentidade.CamposPacienteUtil;
+import br.com.uem.poo.clinica.util.entidades.ConsultaUtil;
+import br.com.uem.poo.clinica.util.entidades.PacienteUtil;
 
 import java.io.PrintStream;
 import java.time.LocalDate;
@@ -37,7 +37,7 @@ public class SubMenuConsulta implements Menu{
       }catch (RuntimeException e){
         saidaTexto.println(e.getMessage());
       }
-    }while (op!=5);
+    }while (op!=7);
 
   }
 
@@ -48,7 +48,9 @@ public class SubMenuConsulta implements Menu{
     sb.append("   2- Relátorio busca consulta pela data\n");
     sb.append("   3- Atualizar consulta\n");
     sb.append("   4- Remove consulta\n");
-    sb.append("   5- Sair\n");
+    sb.append("   5- Exibe Consulta pelo ID\n");
+    sb.append("   6- Relátorio busca consulta pelo email/telefone\n");
+    sb.append("   7- Sair\n");
 
     return sb.toString();
   }
@@ -70,6 +72,12 @@ public class SubMenuConsulta implements Menu{
       case 4:
         removeConsulta();
         break;
+      case 5:
+        exibeConsulta();
+        break;
+      case 6:
+        buscaConsultaPeloEmailOuTelefone();
+        break;
     }
 
     saidaTexto.println("\n---------------------\n");
@@ -81,7 +89,7 @@ public class SubMenuConsulta implements Menu{
     try {
       Paciente paciente = selecionaPaciente();
 
-      Consulta consulta = CamposConsultaUtil.inseriCamposConsulta(paciente);
+      Consulta consulta = ConsultaUtil.inseriCamposConsulta(paciente);
 
       consultaGerenciamento.adicionaConsulta(consulta);
 
@@ -110,7 +118,7 @@ public class SubMenuConsulta implements Menu{
 
       Paciente paciente = selecionaPaciente();
 
-      Consulta consulta = CamposConsultaUtil.inseriCamposConsulta(paciente);
+      Consulta consulta = ConsultaUtil.inseriCamposConsulta(paciente);
       consulta.setId(id);
 
       consultaGerenciamento.atualizaConsulta(consulta);
@@ -130,7 +138,7 @@ public class SubMenuConsulta implements Menu{
       throw new RuntimeException("Lista pacientes vazia nao e possivel continuar");
     }
 
-    CamposPacienteUtil.listaPacientes(pacientes);
+    PacienteUtil.listaPacientes(pacientes);
 
     saidaTexto.print("Insira um id válido do paciente: ");
     Long id = Long.parseLong(leitor.nextLine());
@@ -162,17 +170,57 @@ public class SubMenuConsulta implements Menu{
     }
   }
 
+  public void exibeConsulta(){
+    saidaTexto.println("-------");
+    saidaTexto.print("Insira um id: ");
+    Long id = Long.parseLong(leitor.nextLine());
+
+    try {
+      Consulta consulta = consultaGerenciamento.buscaConsultaPeloId(id);
+
+      ConsultaUtil.mostraConsultaCompleta(consulta);
+    } catch (Exception e) {
+      throw new RuntimeException("Erro "+e.getMessage());
+    }
+  }
+
+  public void buscaConsultaPeloEmailOuTelefone(){
+    saidaTexto.println("\t[1] - email \n\t[2] - telefone");
+    int op = Integer.parseInt(leitor.nextLine());
+
+    if(op!=1&&op!=2){
+      throw new RuntimeException("opcao errada");
+    }
+
+    String busca;
+    saidaTexto.println("Insira a chave de busca:");
+    busca = leitor.nextLine();
+
+    try {
+
+      List<Consulta> consultas;
+
+      if(op==1){
+        consultas = consultaGerenciamento.listaConsultaPeloEmail(busca);
+      }else{
+        consultas = consultaGerenciamento.listaConsultaPeloTelefone(busca);
+      }
+
+      ConsultaUtil.listaConsultas(consultas);
+    } catch (Exception e) {
+      throw new RuntimeException("Erro "+e.getMessage());
+    }
+  }
+
   private void listaConsulta(){
     List<Consulta> consultas = consultaGerenciamento.listaConsulta();
 
     try {
-      if(consultas.size()==0){
-        saidaTexto.println("  Lista vazia !!!!");
-      }else{
-        saidaTexto.print("Digie o dia das consultas no seguinte formato \"dd/MM/yyyy\": ");
-        LocalDate localDateConvertido = DateTimeUtil.converteStringParaLocalDate(leitor.nextLine(), "dd/MM/yyyy");
-        CamposConsultaUtil.listaConsultasPeloDia(consultas, localDateConvertido);
-      }
+
+      saidaTexto.print("Digie o dia das consultas no seguinte formato \"dd/MM/yyyy\": ");
+      LocalDate localDateConvertido = DateTimeUtil.converteStringParaLocalDate(leitor.nextLine(), "dd/MM/yyyy");
+      ConsultaUtil.listaConsultas(consultaGerenciamento.listaConsultaPelaData(localDateConvertido));
+
     } catch (Exception e) {
       throw new RuntimeException("Erro "+e.getMessage());
     }

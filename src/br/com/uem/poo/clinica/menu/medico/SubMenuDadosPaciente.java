@@ -3,8 +3,8 @@ package br.com.uem.poo.clinica.menu.medico;
 import br.com.uem.poo.clinica.entidade.Paciente;
 import br.com.uem.poo.clinica.gerenciamento.PacienteGerenciamento;
 import br.com.uem.poo.clinica.menu.Menu;
-import br.com.uem.poo.clinica.util.camposentidade.CamposDadosPacienteUtil;
-import br.com.uem.poo.clinica.util.camposentidade.CamposPacienteUtil;
+import br.com.uem.poo.clinica.util.entidades.DadosPacienteUtil;
+import br.com.uem.poo.clinica.util.entidades.PacienteUtil;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -49,7 +49,11 @@ public class SubMenuDadosPaciente implements Menu {
   }
 
   private void executaOperacao(int op){
-    Paciente paciente = selecionaPaciente();
+    Paciente paciente = null;
+    if(op!=5){
+      paciente = selecionaPaciente();
+    }
+
     saidaTexto.println("---------------------\n");
 
     switch (op){
@@ -78,7 +82,7 @@ public class SubMenuDadosPaciente implements Menu {
       throw new RuntimeException("Lista pacientes vazia nao e possivel continuar");
     }
 
-    CamposPacienteUtil.listaPacientes(pacientes);
+    PacienteUtil.listaPacientes(pacientes);
 
     saidaTexto.print("Insira um id válido do paciente: ");
     Long id = Long.parseLong(leitor.nextLine());
@@ -91,22 +95,22 @@ public class SubMenuDadosPaciente implements Menu {
   }
 
   public void adicionaDadosPaciente(Paciente paciente){
-    String dados = CamposDadosPacienteUtil.inseriCamposDadosPaciente();
+    String dados = DadosPacienteUtil.inseriCamposDadosPaciente();
     paciente.getDadosAdicionais().add(dados);
     saidaTexto.println("Sucesso ao inserir dado");
   }
 
   public void listaDadosPaciente(Paciente paciente){
-    CamposDadosPacienteUtil.listaDadosPaciente(paciente);
+    DadosPacienteUtil.listaDadosPaciente(paciente);
   }
 
   public void atualizaDadosPaciente(Paciente paciente){
-    CamposDadosPacienteUtil.listaDadosPaciente(paciente);
+    DadosPacienteUtil.listaDadosPaciente(paciente);
     saidaTexto.println("Selecione um id: ");
 
     int id = Integer.parseInt(leitor.nextLine());
 
-    String dado = CamposDadosPacienteUtil.inseriCamposDadosPaciente();
+    String dado = DadosPacienteUtil.inseriCamposDadosPaciente();
 
     paciente.getDadosAdicionais().set(id, dado);
 
@@ -114,7 +118,7 @@ public class SubMenuDadosPaciente implements Menu {
   }
 
   public void removeDadosPaciente(Paciente paciente){
-    CamposDadosPacienteUtil.listaDadosPaciente(paciente);
+    DadosPacienteUtil.listaDadosPaciente(paciente);
     saidaTexto.println("Selecione um id: ");
 
     int id = Integer.parseInt(leitor.nextLine());

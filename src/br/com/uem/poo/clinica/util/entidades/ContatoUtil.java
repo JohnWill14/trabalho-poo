@@ -1,11 +1,11 @@
-package br.com.uem.poo.clinica.util.camposentidade;
+package br.com.uem.poo.clinica.util.entidades;
 
 import br.com.uem.poo.clinica.entidade.Contato;
 
 import java.io.PrintStream;
 import java.util.Scanner;
 
-public class CamposContatoUtil {
+public class ContatoUtil {
   private static final PrintStream saidaTexto = System.out;
   private static final Scanner leitor = new Scanner(System.in);
 

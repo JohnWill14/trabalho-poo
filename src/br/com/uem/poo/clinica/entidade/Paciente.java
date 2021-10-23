@@ -3,10 +3,11 @@ package br.com.uem.poo.clinica.entidade;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class Paciente{
-  private static  Long count = 0L;
+  private static  Long numeroPaciente = 0L;
 
   private Long id;
   private String nome;
@@ -21,17 +22,22 @@ public class Paciente{
     super();
   }
 
-  public Paciente( String nome, Contato contato, LocalDate dataNascimento, Character sexo, String estadoCivil, String tipoConvenio) {
-    super();
-
+  public Paciente(Long id, String nome, Contato contato, LocalDate dataNascimento, Character sexo, String estadoCivil, String tipoConvenio) {
+    this.id = id;
     this.nome = nome;
     this.contato = contato;
     this.dataNascimento = dataNascimento;
     this.sexo = sexo;
     this.estadoCivil = estadoCivil;
     this.tipoConvenio = tipoConvenio;
-    count +=1L;
-    this.id = count;
+  }
+
+  public static Long getNumeroPaciente() {
+    return numeroPaciente;
+  }
+
+  public static void setNumeroPaciente(Long numeroPaciente) {
+    Paciente.numeroPaciente = numeroPaciente;
   }
 
   public Long getId() {
@@ -99,12 +105,12 @@ public class Paciente{
   }
 
   public static class PacienteBuilder{
+    private Long id;
     private String nome;
     private Contato contato;
     private LocalDate dataNascimento;
     private Character sexo;
     private String estadoCivil;
-    private Long id;
     private String tipoConvenio;
 
     public PacienteBuilder() {
@@ -152,9 +158,21 @@ public class Paciente{
     }
 
     public Paciente build(){
-      return new Paciente(nome, contato, dataNascimento, sexo, estadoCivil, tipoConvenio);
+      return new Paciente(id, nome, contato, dataNascimento, sexo, estadoCivil, tipoConvenio);
     }
 
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Paciente paciente = (Paciente) o;
+    return id.equals(paciente.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
 }

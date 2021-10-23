@@ -1,6 +1,5 @@
 package br.com.uem.poo.clinica.menu.secretaria;
 
-import br.com.uem.poo.clinica.gerenciamento.PacienteGerenciamento;
 import br.com.uem.poo.clinica.menu.Menu;
 
 import java.io.PrintStream;

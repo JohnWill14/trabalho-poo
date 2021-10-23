@@ -1,8 +1,12 @@
 package br.com.uem.poo.clinica.gerenciamento;
 
 import br.com.uem.poo.clinica.entidade.Consulta;
+import br.com.uem.poo.clinica.entidade.Paciente;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,11 +14,42 @@ public class ConsultaGerenciamento {
   private static final List<Consulta> consultas = new ArrayList<>();
 
   public void adicionaConsulta(Consulta consulta){
+    consulta.setId(Consulta.getNumeroConsulta()+1L);
+
+    Consulta.setNumeroConsulta(Consulta.getNumeroConsulta()+1L);
+
     consultas.add(consulta);
   }
 
   public List<Consulta> listaConsulta(){
     return consultas;
+  }
+
+  public List<Consulta> listaConsultaPelaData(LocalDateTime ldt){
+    return consultas.stream()
+            .filter(c -> c.getDiaHorario().equals(ldt))
+            .collect(Collectors.toList());
+  }
+
+  public List<Consulta> listaConsultaPelaData(LocalDate ldt){
+    return consultas.stream()
+            .filter(c -> c.getDiaHorario().toLocalDate().equals(ldt))
+            .collect(Collectors.toList());
+  }
+
+
+  public List<Consulta> listaConsultaPeloEmail(String email){
+    return consultas.stream()
+            .filter(c -> c.getPaciente().getContato().getEmail().equals(email))
+            .sorted(Comparator.comparing(Consulta::getDiaHorario).reversed())
+            .collect(Collectors.toList());
+  }
+
+  public List<Consulta> listaConsultaPeloTelefone(String telefone){
+    return consultas.stream()
+            .filter(c -> c.getPaciente().getContato().getTelefone().equals(telefone))
+            .sorted(Comparator.comparing(Consulta::getDiaHorario).reversed())
+            .collect(Collectors.toList());
   }
 
   public Consulta buscaConsultaPeloId(Long id){
@@ -74,5 +109,6 @@ public class ConsultaGerenciamento {
 
     return idList.indexOf(id);
   }
+
 
 }
