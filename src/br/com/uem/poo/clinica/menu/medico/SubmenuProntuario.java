@@ -35,7 +35,7 @@ public class SubmenuProntuario implements Menu {
       }catch (RuntimeException e){
         saidaTexto.println(e.getMessage());
       }
-    }while (op!=5);
+    }while (op!=6);
 
   }
 
@@ -46,14 +46,15 @@ public class SubmenuProntuario implements Menu {
     sb.append("   2- Lista prontuario\n");
     sb.append("   3- Atualiza prontuario\n");
     sb.append("   4- Remove prontuario\n");
-    sb.append("   5- Sair\n");
+    sb.append("   5- Exibe detalhes prontuario\n");
+    sb.append("   6- Sair\n");
 
     return sb.toString();
   }
 
   private void executaOperacao(int op){
     Paciente paciente = null;
-    if(op!=5){
+    if(op!=6){
       paciente = selecionaPaciente();
     }
 
@@ -71,6 +72,9 @@ public class SubmenuProntuario implements Menu {
         break;
       case 4:
         removeProntuario(paciente);
+        break;
+      case 5:
+        exibeProntuario();
         break;
     }
 
@@ -106,7 +110,7 @@ public class SubmenuProntuario implements Menu {
   }
 
   public void listaProntuario(Paciente paciente){
-    ProntuarioUtil.listaProntuariosPeloPaciente(paciente, prontuarioGerenciamento.listaProntuario());
+    ProntuarioUtil.listaProntuarios(prontuarioGerenciamento.listaProntuarioPeloPaciente(paciente));
   }
 
   public void atualizaProntuario(Paciente paciente){
@@ -160,6 +164,17 @@ public class SubmenuProntuario implements Menu {
     }catch (RuntimeException e){
       throw new RuntimeException("Erro "+e.getMessage());
     }
+  }
+
+  public void exibeProntuario(){
+    saidaTexto.println("Digite o id do prontuario: ");
+    long op =Long.parseLong(leitor.nextLine());
+
+    Prontuario prontuario = prontuarioGerenciamento.buscaProntuarioPeloId(op);
+
+    ProntuarioUtil.mostraProntuarioCompleto(prontuario);
+
+
   }
 
 }

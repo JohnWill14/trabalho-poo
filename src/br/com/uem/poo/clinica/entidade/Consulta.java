@@ -12,10 +12,6 @@ public class Consulta {
   private LocalDateTime diaHorario;
   private int duracao;
 
-  {
-
-  }
-
   public Consulta() {
     super();
   }

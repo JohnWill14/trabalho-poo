@@ -21,7 +21,11 @@ public class SubMenuRelatorio implements Menu {
 
       op = leitor.nextInt();
 
-      executaOperacao(op);
+      try {
+        executaOperacao(op);
+      }catch (RuntimeException e){
+        saidaTexto.println(e.getMessage());
+      }
     }while (op!=2);
 
   }
@@ -29,7 +33,7 @@ public class SubMenuRelatorio implements Menu {
   private String topicosRelatorio(){
     StringBuffer sb = new StringBuffer();
 
-    sb.append("   1- Gera Relatorio\n");
+    sb.append("   1- Gera \n");
     sb.append("   2- Sair\n");
 
     return sb.toString();

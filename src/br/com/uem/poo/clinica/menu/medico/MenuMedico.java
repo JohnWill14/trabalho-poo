@@ -16,7 +16,7 @@ public class MenuMedico implements Menu {
     do {
       saidaTexto.println("********* MEDICO *********\n");
       saidaTexto.println("  1- Dados Paciente");
-      saidaTexto.println("  2- prontuario");
+      saidaTexto.println("  2- Prontuario");
       saidaTexto.println("  3- Relatório Consulta");
       saidaTexto.println("  4- Sair");
       saidaTexto.print("Digite a opção: ");

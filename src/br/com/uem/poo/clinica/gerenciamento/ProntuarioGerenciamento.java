@@ -1,5 +1,6 @@
 package br.com.uem.poo.clinica.gerenciamento;
 
+import br.com.uem.poo.clinica.entidade.Paciente;
 import br.com.uem.poo.clinica.entidade.Prontuario;
 
 import java.util.ArrayList;
@@ -20,9 +21,16 @@ public class ProntuarioGerenciamento {
   public List<Prontuario> listaProntuario(){
     return consultas;
   }
+
   public List<Prontuario> listaProntuarioPeloNomeDoMedico(String nomeDoMedico){
     return consultas.stream()
-            .filter(p -> p.getNomeMedico().equals(nomeDoMedico))
+            .filter(c -> c.getNomeMedico().equals(nomeDoMedico))
+            .collect(Collectors.toList());
+  }
+
+  public List<Prontuario> listaProntuarioPeloPaciente(Paciente paciente){
+    return consultas.stream()
+            .filter(c -> c.getPaciente().equals(paciente))
             .collect(Collectors.toList());
   }
 

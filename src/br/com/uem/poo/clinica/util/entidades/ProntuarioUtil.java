@@ -41,22 +41,6 @@ public class ProntuarioUtil {
         return pb.build();
     }
 
-    public static void listaProntuariosPeloPaciente(Paciente paciente, List<Prontuario> prontuarios){
-        saidaTexto.println("Lista Consultas:");
-
-        if(prontuarios.size()==0){
-            saidaTexto.println("* lista vazia");
-        }
-        else {
-            for (Prontuario p : prontuarios) {
-              Paciente pacienteDoProntuario = p.getPaciente();
-
-              if (paciente.equals(pacienteDoProntuario)) {
-                    mostraProntuarioSimples(p);
-                }
-            }
-        }
-    }
 
   public static void listaProntuarios(List<Prontuario> prontuarios){
     saidaTexto.println("Lista Prontuarios:");
@@ -85,5 +69,22 @@ public class ProntuarioUtil {
                 dataString
         );
     }
+
+  public static void mostraProntuarioCompleto(Prontuario prontuario){
+    String dataString;
+    try{
+      dataString = DateTimeUtil.converteLocalDateParaString(prontuario.getData(), "dd/MM/yyyy");
+    }catch (Exception e){
+      throw new RuntimeException("Nao foi possivel converter data");
+    }
+
+    saidaTexto.printf("   Codigo: %03d\n", prontuario.getId());
+    saidaTexto.printf("   Paciente: %s\n", prontuario.getPaciente().getNome());
+    saidaTexto.printf("   Paciente ID: %03d\n", prontuario.getPaciente().getId());
+    saidaTexto.printf("   Data: %s\n", dataString);
+    saidaTexto.printf("   Sintomas: %s\n", prontuario.getSintomas());
+    saidaTexto.printf("   Diagnosticos: %s\n", prontuario.getDiagnosticoDoenca());
+    saidaTexto.printf("   Tratamento: %s\n", prontuario.getTratamento());
+  }
 
 }

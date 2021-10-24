@@ -1,7 +1,6 @@
 package br.com.uem.poo.clinica.gerenciamento;
 
 import br.com.uem.poo.clinica.entidade.Consulta;
-import br.com.uem.poo.clinica.entidade.Paciente;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

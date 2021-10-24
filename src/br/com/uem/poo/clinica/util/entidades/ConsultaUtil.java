@@ -15,8 +15,6 @@ public class ConsultaUtil {
     private static final PrintStream saidaTexto = System.out;
     private static final Scanner leitor = new Scanner(System.in);
 
-    private static PacienteGerenciamento pacienteGerenciamento = new PacienteGerenciamento();
-
     public static Consulta inseriCamposConsulta(Paciente paciente)  {
         Consulta.ConsultaBuild cb = new Consulta.ConsultaBuild();
 
