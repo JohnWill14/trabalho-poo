@@ -1,12 +1,10 @@
-package br.com.uem.poo.clinica.util.entidades;
+package br.com.uem.poo.clinica.util.io.entidades;
 
 import br.com.uem.poo.clinica.entidade.Consulta;
 import br.com.uem.poo.clinica.entidade.Paciente;
-import br.com.uem.poo.clinica.gerenciamento.PacienteGerenciamento;
 import br.com.uem.poo.clinica.util.DateTimeUtil;
 
 import java.io.PrintStream;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;

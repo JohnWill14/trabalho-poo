@@ -1,6 +1,7 @@
 package br.com.uem.poo.clinica.gerenciamento;
 
 import br.com.uem.poo.clinica.entidade.Consulta;
+import br.com.uem.poo.clinica.entidade.Paciente;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -43,6 +44,35 @@ public class ConsultaGerenciamento {
             .sorted(Comparator.comparing(Consulta::getDiaHorario).reversed())
             .collect(Collectors.toList());
   }
+
+  public List<Consulta> listaConsultaPeloMesAno(Integer numeroMes, Integer ano){
+    return consultas.stream()
+            .filter(c->c.getDiaHorario().getMonthValue()==numeroMes)
+            .filter(c->c.getDiaHorario().getYear()==ano)
+            .sorted(Comparator.comparing(Consulta::getDiaHorario).reversed())
+            .collect(Collectors.toList());
+  }
+
+  public List<Consulta> listaConsultaPeloMedicoEPeloMesAno(String nomeMedico, Integer numeroMes, Integer ano){
+    return consultas.stream()
+            .filter(c -> c.getNomeMedico().equals(nomeMedico))
+            .filter(c->c.getDiaHorario().getMonthValue()==numeroMes)
+            .filter(c->c.getDiaHorario().getYear()==ano)
+            .sorted(Comparator.comparing(Consulta::getDiaHorario).reversed())
+            .collect(Collectors.toList());
+  }
+
+  public List<Paciente> listaPacientesPeloMedicoEPeloMesAno(String nomeMedico, Integer numeroMes, Integer ano){
+    return consultas.stream()
+            .filter(c -> c.getNomeMedico().equals(nomeMedico))
+            .filter(c->c.getDiaHorario().getMonthValue()==numeroMes)
+            .filter(c->c.getDiaHorario().getYear()==ano)
+            .sorted(Comparator.comparing(Consulta::getDiaHorario).reversed())
+            .map(Consulta::getPaciente)
+            .distinct()
+            .collect(Collectors.toList());
+  }
+
 
   public List<Consulta> listaConsultaPeloTelefone(String telefone){
     return consultas.stream()

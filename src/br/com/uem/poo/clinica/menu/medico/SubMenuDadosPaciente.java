@@ -3,8 +3,8 @@ package br.com.uem.poo.clinica.menu.medico;
 import br.com.uem.poo.clinica.entidade.Paciente;
 import br.com.uem.poo.clinica.gerenciamento.PacienteGerenciamento;
 import br.com.uem.poo.clinica.menu.Menu;
-import br.com.uem.poo.clinica.util.entidades.DadosPacienteUtil;
-import br.com.uem.poo.clinica.util.entidades.PacienteUtil;
+import br.com.uem.poo.clinica.util.io.entidades.DadosPacienteUtil;
+import br.com.uem.poo.clinica.util.io.entidades.PacienteUtil;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -49,24 +49,24 @@ public class SubMenuDadosPaciente implements Menu {
   }
 
   private void executaOperacao(int op){
-    Paciente paciente = null;
-    if(op!=5){
-      paciente = selecionaPaciente();
-    }
-
     saidaTexto.println("---------------------\n");
+    Paciente paciente;
 
     switch (op){
       case 1:
+        paciente = selecionaPaciente();
         adicionaDadosPaciente(paciente);
         break;
       case 2:
+        paciente = selecionaPaciente();
         listaDadosPaciente(paciente);
         break;
       case 3:
+        paciente = selecionaPaciente();
         atualizaDadosPaciente(paciente);
         break;
       case 4:
+        paciente = selecionaPaciente();
         removeDadosPaciente(paciente);
         break;
     }

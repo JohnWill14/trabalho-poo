@@ -1,4 +1,4 @@
-package br.com.uem.poo.clinica.util.entidades;
+package br.com.uem.poo.clinica.util.io.entidades;
 
 import br.com.uem.poo.clinica.entidade.Paciente;
 import br.com.uem.poo.clinica.util.DateTimeUtil;
@@ -100,6 +100,7 @@ public class PacienteUtil {
 
         saidaTexto.printf("     Codigo: %03d\n", paciente.getId());
         saidaTexto.printf("     Nome: %s\n", paciente.getNome());
+        saidaTexto.printf("     Data Nascimento: %s\n", dataString);
         saidaTexto.printf("     Tipo de convenio: %s\n", paciente.getTipoConvenio());
         saidaTexto.println("- Contato -");
         saidaTexto.printf("     Telefone: %s\n", paciente.getContato().getTelefone());

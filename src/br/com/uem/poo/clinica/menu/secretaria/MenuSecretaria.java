@@ -31,7 +31,7 @@ public class MenuSecretaria implements Menu {
 
   }
 
-  public void executaOperacao(int op){
+  private void executaOperacao(int op){
     Menu submenu = null;
     boolean mostraMenu = true;
 

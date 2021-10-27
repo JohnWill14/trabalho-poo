@@ -5,8 +5,8 @@ import br.com.uem.poo.clinica.entidade.Prontuario;
 import br.com.uem.poo.clinica.gerenciamento.PacienteGerenciamento;
 import br.com.uem.poo.clinica.gerenciamento.ProntuarioGerenciamento;
 import br.com.uem.poo.clinica.menu.Menu;
-import br.com.uem.poo.clinica.util.entidades.PacienteUtil;
-import br.com.uem.poo.clinica.util.entidades.ProntuarioUtil;
+import br.com.uem.poo.clinica.util.io.entidades.PacienteUtil;
+import br.com.uem.poo.clinica.util.io.entidades.ProntuarioUtil;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -53,24 +53,25 @@ public class SubmenuProntuario implements Menu {
   }
 
   private void executaOperacao(int op){
-    Paciente paciente = null;
-    if(op!=6){
-      paciente = selecionaPaciente();
-    }
+    Paciente paciente;
 
     saidaTexto.println("---------------------\n");
 
     switch (op){
       case 1:
+        paciente = selecionaPaciente();
         adicionaProntuario(paciente);
         break;
       case 2:
+        paciente = selecionaPaciente();
         listaProntuario(paciente);
         break;
       case 3:
+        paciente = selecionaPaciente();
         atualizaProntuario(paciente);
         break;
       case 4:
+        paciente = selecionaPaciente();
         removeProntuario(paciente);
         break;
       case 5:

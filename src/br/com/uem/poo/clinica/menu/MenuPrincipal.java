@@ -1,6 +1,7 @@
 package br.com.uem.poo.clinica.menu;
 
 import br.com.uem.poo.clinica.menu.medico.MenuMedico;
+import br.com.uem.poo.clinica.menu.mensagem.MenuMensagem;
 import br.com.uem.poo.clinica.menu.secretaria.MenuSecretaria;
 
 import java.io.PrintStream;
@@ -18,15 +19,16 @@ public  class MenuPrincipal implements Menu {
       saidaTexto.println("********* Saúde & Cia1 *********\n");
       saidaTexto.println("  1- Secretaria");
       saidaTexto.println("  2- Medico");
-      saidaTexto.println("  3- Sair");
+      saidaTexto.println("  3- Gerenciador de mensagem");
+      saidaTexto.println("  4- Sair");
       saidaTexto.print("Digite a opção: ");
 
       op = Integer.parseInt(leitor.nextLine());
 
       executaOperacao(op);
-    }while (op!=3);
+    }while (op!=4);
 
-    saidaTexto.println("\nBYE !!!!!\n");
+    saidaTexto.println("BYE BYE!!!\n");
   }
 
   public void executaOperacao(int op){
@@ -39,6 +41,9 @@ public  class MenuPrincipal implements Menu {
         break;
       case 2:
         menu = new MenuMedico();
+        break;
+      case 3:
+        menu = new MenuMensagem();
         break;
       default:
         mostraMenu = false;

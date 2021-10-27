@@ -1,11 +1,9 @@
 package br.com.uem.poo.clinica.menu.secretaria;
 
-import br.com.uem.poo.clinica.entidade.Consulta;
 import br.com.uem.poo.clinica.entidade.Paciente;
 import br.com.uem.poo.clinica.gerenciamento.PacienteGerenciamento;
 import br.com.uem.poo.clinica.menu.Menu;
-import br.com.uem.poo.clinica.util.entidades.ConsultaUtil;
-import br.com.uem.poo.clinica.util.entidades.PacienteUtil;
+import br.com.uem.poo.clinica.util.io.entidades.PacienteUtil;
 
 import java.io.PrintStream;
 import java.util.List;

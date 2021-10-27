@@ -30,6 +30,7 @@ public class MenuMedico implements Menu {
 
   public void executaOperacao(int op){
     Menu submenu = null;
+    boolean mostraMenu = true;
 
     switch (op){
       case 1:
@@ -41,13 +42,14 @@ public class MenuMedico implements Menu {
       case 3:
         submenu = new SubMenuRelatorio();
         break;
+      default:
+        mostraMenu = false;
+        break;
     }
 
-    if(submenu == null){
-      return;
+    if(mostraMenu) {
+      submenu.showMenu();
     }
-
-    submenu.showMenu();
 
   }
 

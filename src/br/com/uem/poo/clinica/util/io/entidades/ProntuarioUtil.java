@@ -1,4 +1,4 @@
-package br.com.uem.poo.clinica.util.entidades;
+package br.com.uem.poo.clinica.util.io.entidades;
 
 import br.com.uem.poo.clinica.entidade.Paciente;
 import br.com.uem.poo.clinica.entidade.Prontuario;
